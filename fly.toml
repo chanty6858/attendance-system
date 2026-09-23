@@ -1,0 +1,26 @@
+app = "your-attendance-app"
+primary_region = "sin"
+
+[build]
+
+[env]
+  PORT = "8080"
+  DB_PATH = "/data/event.db"
+  PHOTOS_DIR = "/data/photos"
+
+# Set these as secrets, not here:
+#   fly secrets set QR_SECRET=... ADMIN_TOKEN=...
+
+[[mounts]]
+  source = "attendance_data"
+  destination = "/data"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = false
+  min_machines_running = 1
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "512mb"

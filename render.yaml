@@ -1,0 +1,23 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+# Deploy: push this repo, then "New +" → "Blueprint" → pick the repo.
+# Note: the persistent disk requires a paid instance type.
+services:
+  - type: web
+    name: attendance
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: starter
+    healthCheckPath: /api/health
+    envVars:
+      - key: QR_SECRET
+        generateValue: true
+      - key: ADMIN_TOKEN
+        generateValue: true
+      - key: DB_PATH
+        value: /data/event.db
+      - key: PHOTOS_DIR
+        value: /data/photos
+    disk:
+      name: attendance-data
+      mountPath: /data
+      sizeGB: 2

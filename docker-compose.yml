@@ -1,0 +1,36 @@
+# VPS / any Docker host — app + Caddy (automatic HTTPS).
+#   1. Point your domain's DNS A record at the server's IP.
+#   2. Put the domain in Caddyfile.
+#   3. echo "QR_SECRET=$(openssl rand -hex 32)" > .env
+#      echo "ADMIN_TOKEN=$(openssl rand -hex 24)" >> .env
+#   4. docker compose up -d --build
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    environment:
+      PORT: "8080"
+      DB_PATH: /data/event.db
+      PHOTOS_DIR: /data/photos
+      QR_SECRET: ${QR_SECRET:?set QR_SECRET in .env}
+      ADMIN_TOKEN: ${ADMIN_TOKEN:-}
+    volumes:
+      - attendance-data:/data
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+
+volumes:
+  attendance-data:
+  caddy-data:
+  caddy-config:

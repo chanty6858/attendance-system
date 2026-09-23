@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Attendance Dashboard · ផ្ទាំងវត្តមាន</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700&family=Noto+Sans+Khmer:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    .dash { padding: 16px; max-width: 1100px; margin: 0 auto; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+    .card { background: var(--panel); border-radius: 12px; padding: 14px; }
+    .card h3 { margin: 0 0 8px; font-size: 15px; color: var(--muted); font-weight: 600; }
+    .big { font-size: 34px; font-weight: 800; }
+    .sub { color: var(--muted); font-size: 13px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
+    th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid #334155; }
+    th { color: var(--muted); font-weight: 600; }
+    .toolbar { display: flex; gap: 10px; align-items: center; margin: 14px 0; flex-wrap: wrap; }
+    a.button { text-decoration: none; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">Attendance Dashboard<span class="km inline">ផ្ទាំងកត់ត្រាវត្តមាន</span></div>
+    <div class="net" id="netBadge">…</div>
+  </header>
+  <div class="dash">
+    <div class="toolbar">
+      <label style="flex-direction:row; align-items:center; gap:8px;">Meal<span class="km inline">អាហារ</span>
+        <select id="slotSelect"></select>
+      </label>
+      <button id="refresh" class="primary">Refresh<span class="km">ផ្ទុកឡើងវិញ</span></button>
+      <a class="button ghost" id="exportLink" href="/api/export.csv">Export CSV (all)<span class="km">ទាញយក CSV (ទាំងអស់)</span></a>
+      <span class="sub" id="updated"></span>
+    </div>
+    <div class="cards" id="cards"></div>
+    <div id="detail"></div>
+  </div>
+  <script type="module" src="/dashboard.js"></script>
+</body>
+</html>

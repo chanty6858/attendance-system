@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f172a" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700&family=Noto+Sans+Khmer:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <title>Attendance · វត្តមាន</title>
+</head>
+<body>
+  <header>
+    <div class="brand">Attendance<span class="km inline">វត្តមាន</span></div>
+    <div class="slot-picker">
+      <select id="slotSelect" aria-label="Meal slot"></select>
+    </div>
+    <div class="net" id="netBadge">…</div>
+  </header>
+
+  <div id="ctxBanner" class="ctx-banner hidden"></div>
+
+  <main>
+    <section id="setupScreen" class="screen">
+      <h1>Set up this phone<span class="km">រៀបចំទូរស័ព្ទនេះ</span></h1>
+      <p class="muted">Choose the door/station and the person holding this phone. Saved on this device.<span class="km">ជ្រើសរើសច្រកទ្វារ និងឈ្មោះបុគ្គលិកដែលកាន់ទូរស័ព្ទនេះ។ រក្សាទុកក្នុងទូរស័ព្ទ។</span></p>
+      <label><span>Station<span class="km inline">ច្រកទ្វារ</span></span>
+        <select id="stationSelect"></select>
+      </label>
+      <label><span>Staff name<span class="km inline">ឈ្មោះបុគ្គលិក</span></span>
+        <select id="staffSelect"></select>
+      </label>
+      <label><span>Or type a new name<span class="km inline">ឬវាយឈ្មោះថ្មី</span></span>
+        <input id="staffCustom" placeholder="e.g. Dara" />
+      </label>
+      <button id="saveSetup" class="primary">Save &amp; start scanning<span class="km">រក្សាទុក និងចាប់ផ្ដើមស្កេន</span></button>
+      <button id="syncManifest">Refresh guest list<span class="km">ផ្ទុកបញ្ជីឈ្មោះភ្ញៀវឡើងវិញ</span></button>
+      <p id="setupMsg" class="muted"></p>
+    </section>
+
+    <section id="scanScreen" class="screen hidden">
+      <div class="viewfinder">
+        <video id="video" playsinline muted></video>
+        <div class="reticle"></div>
+      </div>
+      <div id="result" class="result"><img id="resultPhoto" class="result-photo hidden" alt="" /><span id="resultText">Point at a guest&rsquo;s QR code / ចង្វាក់ទៅ QR របស់ភ្ញៀវ</span></div>
+
+      <details class="manual">
+        <summary>Enter fallback code<span class="km inline">បញ្ចូលកូដបម្រុង</span></summary>
+        <form id="manualForm">
+          <input id="manualCode" placeholder="ABC123" autocapitalize="characters" autocomplete="off" />
+          <button type="submit">Check in<span class="km">កត់ត្រា</span></button>
+        </form>
+      </details>
+
+      <div class="actions">
+        <button id="toggleCam" class="ghost">Stop camera<span class="km">បិទកាមេរ៉ា</span></button>
+        <button id="editSetup" class="ghost">Change station<span class="km">ប្ដូរច្រកទ្វារ</span></button>
+      </div>
+      <button id="openRegister" class="primary">＋ Register new guest<span class="km">ចុះឈ្មោះភ្ញៀវថ្មី</span></button>
+    </section>
+
+    <section id="registerScreen" class="screen hidden">
+      <h1>Register a guest<span class="km">ចុះឈ្មោះភ្ញៀវ</span></h1>
+      <p class="muted">Take the guest&rsquo;s photo and fill in their details — a QR code is created instantly.<span class="km">ថតរូបភ្ញៀវ និងបំពេញព័ត៌មាន — ប្រព័ន្ធបង្កើត QR ភ្លាមៗ។</span></p>
+
+      <div class="reg-photo">
+        <div class="viewfinder small">
+          <video id="regVideo" playsinline muted></video>
+          <div class="reticle"></div>
+        </div>
+        <img id="regShot" class="shot hidden" alt="guest photo" />
+        <div class="actions">
+          <button id="captureBtn" class="ghost">Capture photo<span class="km">ថតរូប</span></button>
+          <button id="retakeBtn" class="ghost hidden">Retake<span class="km">ថតឡើងវិញ</span></button>
+        </div>
+      </div>
+
+      <label><span>Name *<span class="km inline">ឈ្មោះ</span></span><input id="regName" placeholder="Full name" autocomplete="off" /></label>
+      <label><span>Group / org<span class="km inline">ក្រុម / អង្គភាព</span></span><input id="regGroup" placeholder="e.g. Guests" autocomplete="off" /></label>
+      <label><span>ID card<span class="km inline">អត្តសញ្ញាណប័ណ្ណ</span></span><input id="regIdCard" placeholder="ID / passport number" autocomplete="off" /></label>
+      <label><span>Dietary<span class="km inline">របបអាហារ</span></span><input id="regDietary" placeholder="none / vegetarian / halal…" autocomplete="off" /></label>
+      <label><span>Contact<span class="km inline">ទំនាក់ទំនង</span></span><input id="regContact" placeholder="phone or email" autocomplete="off" /></label>
+      <label class="row-check"><input type="checkbox" id="regCheckin" checked /> <span>Also check in for the current meal<span class="km">កត់ត្រាសម្រាប់អាហារនេះផងដែរ</span></span></label>
+
+      <div class="actions">
+        <button id="submitRegister" class="primary" disabled>Register &amp; create QR<span class="km">ចុះឈ្មោះ និងបង្កើត QR</span></button>
+        <button id="cancelRegister" class="ghost">Cancel<span class="km">បោះបង់</span></button>
+      </div>
+      <div id="regMsg" class="muted"></div>
+
+      <div id="qrCard" class="qr-card hidden">
+        <div id="qrHolder" class="qr-holder"></div>
+        <div class="qr-name" id="qrName"></div>
+        <div class="qr-code" id="qrCode"></div>
+        <div class="actions">
+          <button id="qrCheckin" class="ghost">Check in now<span class="km">កត់ត្រាឥឡូវនេះ</span></button>
+          <button id="qrPrint" class="ghost">Print badge<span class="km">បោះពុម្ពប័ណ្ណ</span></button>
+          <button id="qrDone" class="primary">Done<span class="km">រួចរាល់</span></button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span id="stationLabel">—</span>
+    <span class="pending" id="pendingBadge">0 pending</span>
+  </footer>
+
+  <script src="/vendor/jsQR.js"></script>
+  <script src="/vendor/qrcode-generator.js"></script>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

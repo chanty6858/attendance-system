@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="km">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ប្រព័ន្ធកត់ត្រាវត្តមាន — មគ្គុទ្ទេសក៍សាមញ្ញ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@400;500;600;700;800&family=Kantumruy+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12203a;
+    --muted:#5c6b88;
+    --line:#e2e8f2;
+    --blue:#2563eb;
+    --cyan:#0891b2;
+    --green:#16a34a;
+    --amber:#d97706;
+    --red:#dc2626;
+    --purple:#7c3aed;
+    --pink:#db2777;
+    --soft:#f6f8fd;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;background:#eef2f9;color:var(--ink);
+    font-family:'Kantumruy Pro','Noto Sans Khmer',system-ui,-apple-system,sans-serif;
+    line-height:1.9;-webkit-font-smoothing:antialiased;
+  }
+  .page{
+    max-width:820px;margin:24px auto;background:#fff;border-radius:18px;
+    padding:34px 38px 44px;box-shadow:0 12px 40px rgba(18,32,58,.12);
+  }
+
+  /* header */
+  .hero{
+    border-radius:16px;padding:26px 28px;color:#fff;
+    background:linear-gradient(120deg,#2563eb,#0891b2 55%,#7c3aed);
+    margin-bottom:26px;
+  }
+  .hero .kicker{font-size:13.5px;opacity:.92;letter-spacing:.4px;margin-bottom:8px;}
+  .hero h1{margin:0;font-size:31px;font-weight:800;line-height:1.6;}
+  .hero p{margin:10px 0 0;font-size:16px;opacity:.95;}
+
+  h2.sec{
+    font-size:19px;margin:30px 0 14px;font-weight:700;
+    display:flex;align-items:center;gap:10px;
+  }
+  h2.sec::before{content:"";width:6px;height:22px;border-radius:6px;background:var(--blue);display:inline-block;}
+
+  /* overview flow */
+  .flow{display:flex;align-items:stretch;justify-content:center;gap:8px;flex-wrap:wrap;}
+  .flow .n{
+    flex:1;min-width:140px;text-align:center;padding:18px 12px;border-radius:16px;
+    background:var(--soft);border:1px solid var(--line);
+  }
+  .flow .n .ic{font-size:32px;display:block;margin-bottom:6px;}
+  .flow .n .t{font-weight:700;font-size:15px;}
+  .flow .n .d{font-size:12.5px;color:var(--muted);}
+  .flow .a{align-self:center;color:var(--blue);font-size:20px;font-weight:800;}
+
+  /* steps */
+  .steps{display:flex;flex-direction:column;gap:14px;margin-top:6px;}
+  .step{
+    position:relative;border:1px solid var(--line);border-radius:16px;
+    padding:18px 20px 18px 76px;background:#fff;break-inside:avoid;
+  }
+  .step .num{
+    position:absolute;left:18px;top:18px;width:42px;height:42px;border-radius:12px;
+    display:grid;place-items:center;font-weight:800;font-size:19px;color:#fff;
+    background:var(--c,var(--blue));
+  }
+  .step h3{margin:0 0 4px;font-size:17.5px;font-weight:700;}
+  .step .lead{color:var(--muted);font-size:13.5px;margin:0 0 8px;}
+  .step ul{margin:0;padding-left:20px;}
+  .step li{margin:3px 0;}
+  .step li::marker{color:var(--c,var(--blue));}
+
+  /* data cards (guest / staff) */
+  .datanote{
+    margin-top:12px;border:1px dashed var(--line);border-radius:14px;padding:14px 16px;background:var(--soft);
+  }
+  .datanote .h{font-weight:700;font-size:14px;margin-bottom:10px;}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{
+    display:inline-flex;align-items:center;gap:7px;font-size:13px;
+    background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 13px;
+  }
+  .chip .e{font-size:15px;}
+
+  /* scan legend */
+  .legend{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px;}
+  .st{border:1px solid var(--line);border-radius:14px;padding:14px;break-inside:avoid;}
+  .st .row{display:flex;align-items:center;gap:9px;font-weight:700;font-size:14.5px;}
+  .st .dot{width:14px;height:14px;border-radius:50%;flex:0 0 auto;}
+  .st.g .dot{background:var(--green);}
+  .st.a .dot{background:var(--amber);}
+  .st.r .dot{background:var(--red);}
+  .st .m{color:var(--muted);font-size:12.5px;margin-top:6px;}
+
+  /* key rule */
+  .rule{
+    margin:26px 0 0;border-radius:16px;padding:18px 20px;display:flex;gap:14px;align-items:center;
+    background:linear-gradient(100deg,#ecfdf5,#eff6ff);border:1px solid #cfe3ff;break-inside:avoid;
+  }
+  .rule .big{font-size:30px;}
+  .rule b{font-size:16px;}
+  .rule p{margin:4px 0 0;color:var(--muted);font-size:13.5px;}
+
+  /* facts */
+  .facts{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px;}
+  .fact{background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:15px 10px;text-align:center;break-inside:avoid;}
+  .fact .n{font-size:22px;font-weight:800;color:var(--blue);}
+  .fact .l{font-size:12px;color:var(--muted);margin-top:3px;}
+
+  footer{margin-top:30px;text-align:center;color:var(--muted);font-size:12.5px;border-top:1px solid var(--line);padding-top:18px;}
+
+  /* download button */
+  .dlbar{position:fixed;right:22px;bottom:22px;z-index:9;}
+  .dlbar button{
+    font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;
+    border:none;border-radius:999px;padding:14px 22px;color:#fff;
+    background:linear-gradient(120deg,#2563eb,#7c3aed);
+    box-shadow:0 10px 24px rgba(37,99,235,.4);
+  }
+  .dlbar button:hover{filter:brightness(1.06);}
+
+  @media (max-width:640px){
+    .page{padding:22px 18px 34px;margin:0;border-radius:0;}
+    .hero h1{font-size:24px;}
+    .legend,.facts{grid-template-columns:1fr 1fr;}
+    .flow .a{transform:rotate(90deg);}
+  }
+
+  @page{size:A4;margin:11mm;}
+  @media print{
+    body{background:#fff;}
+    .page{box-shadow:none;margin:0;max-width:none;padding:0;border-radius:0;}
+    .dlbar{display:none;}
+    .step,.st,.fact,.rule,.datanote{break-inside:avoid;}
+    .hero{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .num,.dot,.chip,.fact,.flow .n,.datanote,.rule{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <div class="hero">
+    <div class="kicker">មគ្គុទ្ទេសក៍ខ្លីៗ · សម្រាប់អ្នករៀបចំពិធី</div>
+    <h1>ប្រព័ន្ធកត់ត្រាវត្តមានភ្ញៀវ</h1>
+    <p>ងាយស្រួល · លឿន · ត្រឹមត្រូវ — បត់បែនតាមចំនួនភ្ញៀវក្នុងបញ្ជីរបស់អ្នក</p>
+  </div>
+
+  <h2 class="sec">ដំណើរការសង្ខេប</h2>
+  <div class="flow">
+    <div class="n"><span class="ic">📝</span><div class="t">រៀបចំបញ្ជី</div><div class="d">ភ្ញៀវ និងបុគ្គលិក</div></div>
+    <span class="a">➜</span>
+    <div class="n"><span class="ic">🎫</span><div class="t">ចែកប័ណ្ណ QR</div><div class="d">ដល់ភ្ញៀវម្នាក់ៗ</div></div>
+    <span class="a">➜</span>
+    <div class="n"><span class="ic">📱</span><div class="t">ស្កេននៅច្រក</div><div class="d">ថ្ងៃពិធី</div></div>
+    <span class="a">➜</span>
+    <div class="n"><span class="ic">📊</span><div class="t">មើលលទ្ធផល</div><div class="d">ផ្ទាល់ និងរបាយការណ៍</div></div>
+  </div>
+
+  <h2 class="sec">ជំហានទាំង ៦</h2>
+  <div class="steps">
+
+    <div class="step" style="--c:var(--blue)">
+      <div class="num">១</div>
+      <h3>បញ្ចូលបញ្ជីឈ្មោះភ្ញៀវ</h3>
+      <p class="lead">អ្នកបញ្ចូលព័ត៌មានភ្ញៀវទាំងអស់ចូលប្រព័ន្ធតែម្ដង។</p>
+      <ul>
+        <li><b>ចំនួនភ្ញៀវមិនកំណត់</b> — បញ្ចូលប៉ុន្មាននាក់ក៏បាន តាមឯកសាររបស់អ្នក។</li>
+        <li>ភ្ញៀវម្នាក់ៗមានព័ត៌មានផ្ទាល់ខ្លួន និងទទួលបានលេខកូដផ្ទាល់ខ្លួន។</li>
+        <li>អាចបន្ថែម ឬកែព័ត៌មានភ្ញៀវបានគ្រប់ពេលមុនពិធី។</li>
+      </ul>
+      <div class="datanote">
+        <div class="h">📇 ព័ត៌មានភ្ញៀវដែលបញ្ចូល</div>
+        <div class="chips">
+          <span class="chip"><span class="e">🖼️</span> រូបថត</span>
+          <span class="chip"><span class="e">👤</span> ឈ្មោះ</span>
+          <span class="chip"><span class="e">🪪</span> អត្តសញ្ញាណប័ណ្ណ</span>
+          <span class="chip"><span class="e">🏷️</span> ក្រុម / អង្គភាព</span>
+          <span class="chip"><span class="e">🍽️</span> របបអាហារ</span>
+          <span class="chip"><span class="e">📞</span> ទំនាក់ទំនង</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" style="--c:var(--purple)">
+      <div class="num">២</div>
+      <h3>បញ្ចូលបញ្ជីបុគ្គលិក</h3>
+      <p class="lead">បញ្ចូលឈ្មោះបុគ្គលិកដែលនឹងស្កេននៅច្រកទ្វារ។</p>
+      <ul>
+        <li>កំណត់ថាបុគ្គលិកណានៅច្រកទ្វារណា។</li>
+        <li>ដឹងច្បាស់ថាអ្នកណាស្កេនភ្ញៀវណា ដើម្បីងាយត្រួតពិនិត្យ។</li>
+      </ul>
+      <div class="datanote">
+        <div class="h">🧑‍💼 ព័ត៌មានបុគ្គលិកដែលបញ្ចូល</div>
+        <div class="chips">
+          <span class="chip"><span class="e">🖼️</span> រូបថត</span>
+          <span class="chip"><span class="e">👤</span> ឈ្មោះ</span>
+          <span class="chip"><span class="e">💼</span> តួនាទី</span>
+          <span class="chip"><span class="e">🚪</span> ច្រកទ្វារ</span>
+          <span class="chip"><span class="e">📞</span> លេខទូរស័ព្ទ</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" style="--c:var(--cyan)">
+      <div class="num">៣</div>
+      <h3>បង្កើត និងចែកប័ណ្ណ QR</h3>
+      <p class="lead">ប្រព័ន្ធបង្កើតប័ណ្ណ QR ដោយស្វ័យប្រវត្តិសម្រាប់ភ្ញៀវម្នាក់ៗ។</p>
+      <ul>
+        <li>បោះពុម្ពប័ណ្ណ ហើយចែកជូនភ្ញៀវមុនថ្ងៃពិធី។</li>
+        <li>លើប័ណ្ណមានឈ្មោះ កូដ QR និងកូដបម្រុង (បើ QR ខូច)។</li>
+      </ul>
+    </div>
+
+    <div class="step" style="--c:var(--green)">
+      <div class="num">៤</div>
+      <h3>ថ្ងៃពិធី — ស្កេន QR</h3>
+      <p class="lead">បុគ្គលិកនៅច្រកទ្វារប្រើទូរស័ព្ទស្កេន QR របស់ភ្ញៀវ។</p>
+      <ul>
+        <li>ប្រព័ន្ធបង្ហាញឈ្មោះ និងរូបថតភ្ញៀវ ដើម្បីផ្ទៀងផ្ទាត់។</li>
+        <li>ដំណើរការបានទោះបីជា <b>គ្មានអ៊ីនធឺណិត</b> — ទិន្នន័យមិនបាត់។</li>
+        <li>បើ QR ខូច បុគ្គលិកវាយកូដបម្រុងលើប័ណ្ណជំនួស។</li>
+      </ul>
+      <div class="legend">
+        <div class="st g"><div class="row"><span class="dot"></span> ជោគជ័យ</div><div class="m">កត់ត្រាវត្តមានរួចរាល់</div></div>
+        <div class="st a"><div class="row"><span class="dot"></span> ស្ទួន</div><div class="m">ភ្ញៀវនេះបានកត់ត្រារួចហើយ</div></div>
+        <div class="st r"><div class="row"><span class="dot"></span> មិនស្គាល់</div><div class="m">គ្មានក្នុងបញ្ជីឈ្មោះ</div></div>
+      </div>
+    </div>
+
+    <div class="step" style="--c:var(--amber)">
+      <div class="num">៥</div>
+      <h3>តាមដានផ្ទាល់</h3>
+      <p class="lead">អ្នកមើលចំនួនអ្នកមកដល់បានភ្លាមៗ។</p>
+      <ul>
+        <li>ចំនួនតាមអាហារនីមួយៗ (ព្រឹក · ថ្ងៃត្រង់ · ល្ងាច)។</li>
+        <li>ចំនួនតាមច្រកទ្វារ — ដឹងថាច្រកណាមានភ្ញៀវច្រើន។</li>
+      </ul>
+    </div>
+
+    <div class="step" style="--c:var(--pink)">
+      <div class="num">៦</div>
+      <h3>ទាញយករបាយការណ៍</h3>
+      <p class="lead">ប្រព័ន្ធផ្ដល់បញ្ជីអ្នកមកដល់ពេញលេញ។</p>
+      <ul>
+        <li>ជាតារាងអាចបើកក្នុង Excel បានយ៉ាងងាយ។</li>
+        <li>មានឈ្មោះ ក្រុម ថ្ងៃ អាហារ ម៉ោងស្កេន ច្រកទ្វារ និងបុគ្គលិក។</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="rule">
+    <span class="big">🔑</span>
+    <div>
+      <b>ច្បាប់សំខាន់៖ ភ្ញៀវម្នាក់រាប់តែម្ដង ក្នុងមួយពេលអាហារ។</b>
+      <p>បើស្កេនជាន់គ្នា ប្រព័ន្ធរក្សាលើកទីមួយ ហើយសម្គាល់លើកទីពីរថាជាការស្ទួន។ ដូច្នេះចំនួនចុងក្រោយត្រឹមត្រូវជានិច្ច។</p>
+    </div>
+  </div>
+
+  <div class="facts">
+    <div class="fact"><div class="n">គ្រប់ចំនួន</div><div class="l">ភ្ញៀវតាមបញ្ជីរបស់អ្នក</div></div>
+    <div class="fact"><div class="n">បត់បែន</div><div class="l">ចំនួនអាហារ និងថ្ងៃ</div></div>
+    <div class="fact"><div class="n">វិនាទី</div><div class="l">ក្នុងមួយការស្កេន</div></div>
+    <div class="fact"><div class="n">គ្មានអ៊ីនធឺណិត</div><div class="l">ក៏អាចស្កេនបាន</div></div>
+  </div>
+
+  <footer>
+    ប្រព័ន្ធនេះរក្សាទុកទិន្នន័យដោយសុវត្ថិភាព និងអាចត្រួតពិនិត្យបានគ្រប់ពេល។
+  </footer>
+
+</div>
+
+<div class="dlbar">
+  <button onclick="window.print()">⬇️ ទាញយកជា PDF</button>
+</div>
+
+</body>
+</html>

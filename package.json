@@ -1,0 +1,33 @@
+{
+  "name": "attendance-system",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --test test/*.js",
+    "serve": "node src/server/index.js",
+    "import": "node src/server/cli.js import",
+    "slots": "node src/server/cli.js slots",
+    "badges": "node src/server/cli.js badges",
+    "stats": "node src/server/cli.js stats",
+    "pdf": "node scripts/make-pdf.mjs docs/attendance-workflow-kh.html docs/attendance-workflow-kh.pdf",
+    "roster": "node scripts/make-roster.mjs",
+    "import-staff": "node src/server/cli.js import-staff",
+    "simulate": "node scripts/simulate-day.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "private": "true",
+  "dependencies": {
+    "@fastify/static": "^10.1.4",
+    "better-sqlite3": "^13.0.3",
+    "csv-parse": "^7.0.2",
+    "fastify": "^5.12.5",
+    "jsqr": "^1.4.0",
+    "pdf-lib": "^1.17.1",
+    "qrcode": "^1.5.4",
+    "qrcode-generator": "^2.0.4"
+  }
+}
