@@ -100,6 +100,40 @@ test('end-to-end over HTTP: register guest + sync check-in + dashboard + export'
   await server.close();
 });
 
+test('admin import accepts a raw CSV body and JSON', async () => {
+  const server = await app('secret');
+  const raw = await server.inject({
+    method: 'POST',
+    url: '/api/admin/import',
+    headers: { 'x-admin-token': 'secret', 'content-type': 'text/csv' },
+    payload: 'name,group,id_card\nA Guest,Guests,111\nB Guest,Guests,222\n',
+  });
+  assert.equal(raw.statusCode, 200, 'raw text/csv body is parsed');
+  assert.equal(raw.json().inserted, 2);
+  assert.equal(raw.json().replaced, false, 'a raw CSV body must not trigger a replace');
+
+  const second = await server.inject({
+    method: 'POST',
+    url: '/api/admin/import',
+    headers: { 'x-admin-token': 'secret', 'content-type': 'text/csv' },
+    payload: 'name,group,id_card\nD Guest,Guests,444\n',
+  });
+  assert.equal(second.json().inserted, 1, 'raw import adds to the roster');
+
+  const json = await server.inject({
+    method: 'POST',
+    url: '/api/admin/import',
+    headers: { 'x-admin-token': 'secret' },
+    payload: { csv: 'name\nC Guest\n' },
+  });
+  assert.equal(json.statusCode, 200);
+  assert.equal(json.json().inserted, 1);
+
+  const list = await server.inject({ method: 'GET', url: '/api/manifest' });
+  assert.equal(list.json().guests.length, 4, 'roster accumulated, not wiped');
+  await server.close();
+});
+
 test('static app shell and health are served', async () => {
   const server = await app('');
   assert.equal((await server.inject({ method: 'GET', url: '/api/health' })).statusCode, 200);

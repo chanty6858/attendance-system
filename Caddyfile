@@ -1,4 +1,21 @@
-# Replace with your real domain. Caddy gets a free HTTPS certificate automatically.
+# Caddy gets a free HTTPS certificate automatically — no manual cert setup.
+#
+# Pick ONE of these:
+#
+# 1) You own a domain (recommended). Point its A record at the VPS IP, then use it:
+#      attendance.example.com {
+#          reverse_proxy app:8080
+#      }
+#
+# 2) You have no domain. Use sslip.io with the VPS IP, dashes instead of dots:
+#      (e.g. for 203.0.113.10)
+#      203-0-113-10.sslip.io {
+#          reverse_proxy app:8080
+#      }
+#
+# Then replace the block below. HTTPS is required: phone cameras only work on a
+# secure origin, and staff will open this exact URL.
+
 attendance.example.com {
 	reverse_proxy app:8080
 }

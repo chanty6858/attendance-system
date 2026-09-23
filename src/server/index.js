@@ -18,6 +18,11 @@ export async function buildServer({ db = openDb(), adminToken = process.env.ADMI
 
   await app.register(fastifyStatic, { root: WEB_ROOT, prefix: '/' });
 
+  // Accept a raw CSV body (used by the admin import endpoint) as well as JSON.
+  for (const type of ['text/csv', 'text/plain', 'application/csv']) {
+    app.addContentTypeParser(type, { parseAs: 'string' }, (_req, body, done) => done(null, body));
+  }
+
   const requireAdmin = async (req, reply) => {
     if (!adminToken) return;
     if (req.headers['x-admin-token'] !== adminToken) {
@@ -103,12 +108,15 @@ export async function buildServer({ db = openDb(), adminToken = process.env.ADMI
 
   // ---- admin ----
   app.post('/api/admin/import', { preHandler: requireAdmin }, async (req, reply) => {
+    const isObject = req.body !== null && typeof req.body === 'object';
     const csvText = typeof req.body === 'string' ? req.body : req.body?.csv;
     if (!csvText) return reply.code(400).send({ error: 'expected raw CSV body or {csv}' });
     try {
       return importGuests(db, csvText, {
-        replace: Boolean(req.body?.replace),
-        force: Boolean(req.body?.force),
+        // Only honour these when a JSON object was sent — a raw CSV string has
+        // its own `replace`/`force` properties (String.prototype) that must not leak in.
+        replace: isObject ? Boolean(req.body.replace) : false,
+        force: isObject ? Boolean(req.body.force) : false,
       });
     } catch (err) {
       return reply.code(400).send({ error: err.message });

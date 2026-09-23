@@ -5,4 +5,13 @@ data/*.db-wal
 data/*.db-shm
 data/photos/
 .env
+
+# Secrets — never commit
+github_token/
+*ghp_*
+*github_pat_*
+
+# Local tooling / environment
+.gsk/
+CONTEXT.md
 .DS_Store

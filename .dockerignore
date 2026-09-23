@@ -3,9 +3,16 @@ out
 data/*.db
 data/*.db-wal
 data/*.db-shm
+data/photos
 .git
 .gitignore
 *.log
 .DS_Store
 test
 scripts
+
+# Secrets / local-only
+.env
+github_token
+.gsk
+CONTEXT.md
